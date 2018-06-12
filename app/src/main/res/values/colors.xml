@@ -3,4 +3,41 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="_333">#333</color>
+    <color name="_FFF">#FFF</color>
+    <color name="_99666666">#99666666</color>
+
+    <!-- 基色 -->
+    <color name="_2789EC">#2789EC</color>
+    <color name="_AAA">#AAA</color>
+    <!-- 侧滑头部颜色渐变 -->
+    <color name="_3C79FE">#3C79FE</color>
+    <color name="_3BCFFD">#3BCFFD</color>
+
+    <color name="_000">#000</color>
+    <color name="_2F2F2F">#2F2F2F</color>
+    <color name="_666">#666</color>
+    <color name="_999">#999</color>
+    <color name="_E0E0E0">#E0E0E0</color>
+    <color name="_F0F0F0">#F0F0F0</color>
+    <color name="_3977F7">#3977F7</color>
+    <color name="_DE1E25">#DE1E25</color>
+    <color name="_29B9FF">#29B9FF</color>
+    <color name="_FF0000">#FF0000</color>
+    <color name="_CE0000">#CE0000</color>
+    <color name="_E20000">#E20000</color>
+
+    <!--橙色-->
+    <color name="_FF7F00">#FF7F00</color>
+    <!--桔黄色-->
+    <color name="_E47833">#E47833</color>
+    <!--深藏青色-->
+    <color name="_2F2F4F">#2F2F4F</color>
+    <!--森林绿-->
+    <color name="_238E23">#238E23</color>
+    <!--火砖色-->
+    <color name="_8E2323">#8E2323</color>
+    <!--霓虹粉红-->
+    <color name="_FF6EC7">#FF6EC7</color>
 </resources>
