@@ -1,13 +1,31 @@
 package com.gaoyanrong.concise;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
-public class MainActivity extends AppCompatActivity {
+import com.gaoyanrong.concise.base.BaseActivity;
+import com.gaoyanrong.concise.manager.UIManager;
+import com.gaoyanrong.concise.manager.ViewMapping;
+
+import butterknife.BindView;
+
+public class MainActivity extends BaseActivity {
+
+    @BindView(R.id.content_main)
+    FrameLayout middleContainer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int initLayoutID() {
+        return R.layout.activity_main;
     }
+
+    @Override
+    protected void initContentView() {
+        Bundle bundle = new Bundle();
+        UIManager.getInstance().setMiddleContainer(middleContainer);
+        UIManager.getInstance().changeView(ViewMapping.PROJECT_GUIDE, bundle);
+
+    }
+
+
 }

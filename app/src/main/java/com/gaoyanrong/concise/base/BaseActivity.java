@@ -18,6 +18,8 @@ import com.gaoyanrong.concise.R;
 import com.jaeger.library.StatusBarUtil;
 import com.joker.api.Permissions4M;
 
+import java.lang.reflect.InvocationTargetException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

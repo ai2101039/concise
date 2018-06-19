@@ -122,4 +122,30 @@ public abstract class BaseView {
 
 
 
+    ////////////////////////////// get set   //////////////////////////////////////
+
+
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
+    }
+
+    public Bundle getmBundle() {
+        return mBundle;
+    }
+
+    public void setmBundle(Bundle mBundle) {
+        this.mBundle = mBundle;
+    }
+
+    public View getContainer() {
+        return container;
+    }
+
+    public void setContainer(View container) {
+        this.container = container;
+    }
 }
