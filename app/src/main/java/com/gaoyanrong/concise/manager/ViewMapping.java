@@ -1,59 +1,89 @@
 package com.gaoyanrong.concise.manager;
 
+
 import com.gaoyanrong.concise.base.BaseView;
-import com.gaoyanrong.concise.feature.MainView;
+import com.gaoyanrong.concise.feature.main.AuthorListView;
+import com.gaoyanrong.concise.feature.main.IndexView;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author 高延荣
- * @date 2018/4/25 17:33
- * 描述:  记录View 查找信息
+ * @date 2018/12/3 11:54
+ * 描述: BaseView 的清单文件
  */
-
 public class ViewMapping {
-
-
-    private static Map<String, Class<? extends BaseView>> viewMap = new HashMap<>();
-
-    /**
-     * 单例一个ViewMapping
-     */
     private static ViewMapping viewMapping = new ViewMapping();
 
-    ///////////////////////////////  项目相关  /////////////////////////////
-
-
-    public static final String PROJECT_GUIDE = "项目主界面";
-    public static final String PROJECT_QR_CODE = "项目二维码页面";
-    public static final String PROJECT_WORK_DIARY = "施工日志";
-    public static final String PROJECT_IMG_TEXT_COMMIT = "图片文字上传";
-    public static final String PROJECT_SAFE = "安全问题";
-    public static final String PROJECT_QUALITY = "质量问题";
-
-    ///////////////////////////////  用户相关  /////////////////////////////
-
-
     /**
-     * 初始化时，将BaseView清单构造完成
+     * 启动模式
      */
-    private ViewMapping() {
-        viewMap.put(PROJECT_GUIDE, MainView.class);
-//        viewMap.put(PROJECT_QR_CODE, ProjectQRCodeView.class);
-//        viewMap.put(PROJECT_WORK_DIARY, ProjectWorkDiaryView.class);
-//        viewMap.put(PROJECT_IMG_TEXT_COMMIT, ProjectImageTextCommit.class);
-//        viewMap.put(PROJECT_SAFE, ProjectSafe.class);
-//        viewMap.put(PROJECT_QUALITY, ProjectQuality.class);
+    public static final int STANDARD = 0;
+    public static final int SINGLE_TASK = 1;
+    public static final int SINGLE_TOP = 2;
 
+    private HashMap<String, Item> viewMap = new HashMap<>();
+
+    ///////////////////////////////  BaseView 的 标识字符串 Mark  /////////////////////////////
+
+
+    public static final String GUIDE = "项目主界面";
+    public static final String AUTHOR_LIST = "作者列表页面";
+
+    private ViewMapping() {
+        put(GUIDE, IndexView.class);
+        put(AUTHOR_LIST, AuthorListView.class);
     }
 
+
+    ////////////////////////////////////不需要操作//////////////////////////////////
+
+    private void put(String s, Class<? extends BaseView> clazz) {
+        put(s, clazz, SINGLE_TASK);
+    }
+
+    private void put(String s, Class<? extends BaseView> clazz, int launchMode) {
+        viewMap.put(s, new Item(launchMode, clazz));
+    }
+
+    /**
+     * @return viewMap
+     */
+    public HashMap<String, Item> getViewMap() {
+        return viewMap;
+    }
+
+    /**
+     * @return viewMapping
+     */
     public static ViewMapping getInstance() {
         return viewMapping;
     }
 
-    public Map<String, Class<? extends BaseView>> getViewMap() {
-        return viewMap;
+    /**
+     * 包含 class 类及启动模式，默认为 栈内模式
+     */
+    static class Item {
+        private int launchMode;
+        private Class<? extends BaseView> clazz;
+
+        public Item(Class<? extends BaseView> clazz) {
+            launchMode = SINGLE_TASK;
+            this.clazz = clazz;
+        }
+
+        public Item(int launchMode, Class<? extends BaseView> clazz) {
+            this.launchMode = launchMode;
+            this.clazz = clazz;
+        }
+
+        public int getLaunchMode() {
+            return launchMode;
+        }
+
+        public Class<? extends BaseView> getClazz() {
+            return clazz;
+        }
     }
 
 

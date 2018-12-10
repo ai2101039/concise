@@ -3,16 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/_99666666"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/loading_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/loadText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="@string/loading" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
     <ViewStub
-        android:id="@+id/base_load"
-        android:layout="@layout/base_load"
+        android:id="@+id/viewStub"
+        android:layout="@layout/error"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ViewStub
-        android:id="@+id/base_error"
-        android:layout="@layout/base_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </FrameLayout>

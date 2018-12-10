@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-
     <color name="_333">#333</color>
     <color name="_FFF">#FFF</color>
     <color name="_99666666">#99666666</color>
@@ -27,7 +23,9 @@
     <color name="_FF0000">#FF0000</color>
     <color name="_CE0000">#CE0000</color>
     <color name="_E20000">#E20000</color>
-
+    <color name="_F9F9F9">#F9F9F9</color>
+    <color name="_F2F2F2">#F2F2F2</color>
+    <color name="_CD2A2A">#CD2A2A</color>
     <!--橙色-->
     <color name="_FF7F00">#FF7F00</color>
     <!--桔黄色-->

@@ -4,148 +4,117 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
+
+import com.gaoyanrong.concise.manager.UiManager;
+
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author 高延荣
- * @date 2018/6/13 11:25
- * 描述: BaseView是一个View容器类，对外提供View布局，及生命周期
  */
 public abstract class BaseView {
-    /**
-     * 上下文，在必要时，自行强转
-     */
     protected Context mContext;
-    /**
-     * 当前View ID
-     */
     protected String mId;
-    /**
-     * 重要，重要，重要！！！
-     * 非常重要！！！
-     * 用于数据的传递、获取，可根据数据变化进行不同操作
-     */
     protected Bundle mBundle;
-    /**
-     * 资源
-     */
     protected Resources mResources;
-    /**
-     * 填充
-     */
     protected LayoutInflater mInflater;
+
     /**
-     * 容器
+     * 实现类 布局 View
      */
     protected View container;
+    /**
+     * ButterKnife 绑定对象
+     */
+    private Unbinder unbinder;
 
-    public BaseView(Context context, String id, Bundle bundle) {
-        mContext = context;
-        mId = id;
-        mBundle = bundle;
-        mResources = context.getResources();
-        mInflater = LayoutInflater.from(context);
+    public BaseView(Context mContext, String mId, Bundle mBundle) {
+        this.mContext = mContext;
+        this.mId = mId;
+        this.mBundle = mBundle;
+        this.mResources = mContext.getResources();
+        mInflater = LayoutInflater.from(mContext);
 
-        initContainer();
-        init();
+        onCreate();
     }
 
 
+    /////////////////////////// 通用调用 //////////////////////////////////////
+
     /**
-     * 初始化容器
+     * @param id
+     * @param <T>
+     * @return findView
      */
-    private void initContainer() {
-        container = mInflater.inflate(initLayoutID(), null);
-        ButterKnife.bind(this, container);
+    protected <T extends View> T findViewById(@IdRes int id) {
+        return container.findViewById(id);
+    }
+
+    /**
+     * @return 布局View对象
+     */
+    public View getContainer() {
+        return container;
+    }
+
+    /**
+     * @param jumpId 要跳转到的ViewID，在ViewMapping内
+     * @param bundle 数据
+     */
+    public void changeView(String jumpId, Bundle bundle) {
+        UiManager.getInstance().changeView(jumpId, bundle);
     }
 
     /////////////////////////// 子类实现 //////////////////////////////////////
 
     /**
-     * 布局ID
-     * 在这里直接可以使用 ButterKnife获取对象
+     * 传入继承 BaseView 的类 所想要用的布局ID
      *
-     * @return layout
+     * @return 布局ID
      */
     protected abstract int initLayoutID();
 
-    /**
-     * 类似于 Activity onCreate() ，做一些初始化动作。
-     */
-    protected abstract void init();
 
+    /////////////////////////// 生命周期 //////////////////////////////////////
 
-    ////////////////////////////// 子类重写 生命周期 //////////////////////////////////////
-
-    /**
-     * 类似于 Activity onResume
-     */
     @CallSuper
-    public void onResume() {
+    public void onCreate() {
+        container = mInflater.inflate(initLayoutID(), null);
+        unbinder = ButterKnife.bind(this,container);
     }
 
-    /**
-     * 类似于  Activity onPause
-     */
+    @CallSuper
+    public void onResume() {
+
+    }
+
     @CallSuper
     public void onPause() {
 
     }
 
-    /**
-     * 类似于 Activity 的 onNewIntent，当前View如果已存在，则
-     *
-     * @param bundle 传递数据
-     */
     @CallSuper
-    public void onNewIntent(Bundle bundle) {
+    public void onDestory() {
+        unbinder.unbind();
+    }
+
+    @CallSuper
+    public void onNewIntent() {
 
     }
 
     /**
-     * 是否接收回退动作，默认不接收
-     *
-     * @param keyCode int
+     * @param keyCode key值
      * @param event   事件
-     * @return 是否拦截回退
+     * @return 是否接收按下动作，默认不接收
      */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return false;
-    }
-
-
-    ////////////////////////////// 子类调用 //////////////////////////////////////
-
-
-
-    ////////////////////////////// get set   //////////////////////////////////////
-
-
-    public String getmId() {
-        return mId;
-    }
-
-    public void setmId(String mId) {
-        this.mId = mId;
-    }
-
-    public Bundle getmBundle() {
-        return mBundle;
-    }
-
-    public void setmBundle(Bundle mBundle) {
-        this.mBundle = mBundle;
-    }
-
-    public View getContainer() {
-        return container;
-    }
-
-    public void setContainer(View container) {
-        this.container = container;
     }
 }

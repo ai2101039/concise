@@ -1,9 +1,62 @@
 <resources>
     <string name="app_name">Concise</string>
-
-    <!-- BaseActivity loading 页面，error 页面 -->
     <string name="loading">正在加载</string>
     <string name="error">请求失败，点击重试</string>
     <string name="retry">重试</string>
     <string name="networkError">网络不给力</string>
+    <string name="setting">设置</string>
+    <string name="quit">退出</string>
+
+    <item name="tag_position" type="id"></item>
+    <item name="tag_clickable" type="id"></item>
+
+    <string name="have_not_login">没有登陆</string>
+    <string name="login_process_tip">登陆中&#8230;</string>
+    <string name="logout_process_tip">退出中&#8230;</string>
+    <string name="login_failed">登陆失败</string>
+    <string name="logout_failed">退出失败</string>
+    <string name="login_success">登陆成功</string>
+    <string name="logout_success">退出成功</string>
+    <string name="empty">数据为空</string>
+    <string name="loading_process_tip">加载中&#8230;</string>
+    <string name="loading_success">加载成功</string>
+    <string name="loading_failed">加载失败</string>
+    <string name="get_root_control_center_error">获取根节点出错</string>
+    <string name="get_sub_resource_list_error">获取次级资源列表出错</string>
+    <string name="no_permission">没有权限</string>
+    <string name="loading_camera_info">加载监控详细信息</string>
+    <string name="loading_camera_info_failure">加载监控点详细信息失败</string>
+    <string name="loading_device_info">加载设备信息</string>
+    <string name="loading_device_info_failure">加载设备信息失败</string>
+    <string name="loading_authority_token_failure">加载认证TOKEN失败</string>
+    <string name="loading_play_url">加载播放地址</string>
+    <string name="loading_play_url_failure">加载播放地址失败</string>
+    <string name="live_start_play">播放</string>
+    <string name="live_stop_play">停止</string>
+    <string name="live_capture">抓拍</string>
+    <string name="rtsp_success">启动取流成功</string>
+    <string name="rtsp_fail">RTSP链接失败</string>
+    <string name="live_stop_success">停止成功</string>
+    <string name="start_open_failed">开启播放库失败</string>
+    <string name="play_display_success">播放成功</string>
+    <string name="start_ptz">开始云台控制</string>
+    <string name="stop_ptz">停止云台控制</string>
+    <string name="start_record">启动录像</string>
+    <string name="stop_record">停止录像</string>
+    <string name="start_record_success">启动录像成功</string>
+    <string name="stop_record_success">停止录像成功</string>
+    <string name="start_Audio">开启音频</string>
+    <string name="start_Audio_success">开启音频成功</string>
+    <string name="start_Audio_fail">开启音频失败</string>
+    <string name="stop_Audio">关闭音频</string>
+    <string name="open_Audio">开音</string>
+    <string name="close_Audio">关音</string>
+    <string name="capture_success">抓拍成功</string>
+    <string name="capture_fail">抓拍失败</string>
+    <string name="preset_range">预置点范围为1~256，请重新设置</string>
+    <string name="set_preset">请设置预置点，范围为1~256</string>
+    <string-array name="camera_select_items">
+        <item>预览</item>
+        <item>回放</item>
+    </string-array>
 </resources>
