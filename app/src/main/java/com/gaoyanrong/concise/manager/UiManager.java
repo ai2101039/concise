@@ -196,7 +196,7 @@ public class UiManager {
         BaseView targetView = null;
         //  这里注意反射参数
         try {
-            Constructor<? extends BaseView> constructor = targetClass.getConstructor(Context.class, String.class, Bundle.class);
+            Constructor<? extends BaseView> constructor = targetClass.getDeclaredConstructor(Context.class, String.class, Bundle.class);
             targetView = constructor.newInstance(middleContainer.getContext(), id, bundle);
         } catch (Exception e) {
             Log.e("错误", "弹出此消息，说明UiManager中的反射出错，一般是传入的class类型和实际的形参类型不同");
