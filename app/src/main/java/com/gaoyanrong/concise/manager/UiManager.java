@@ -199,7 +199,7 @@ public class UiManager {
             Constructor<? extends BaseView> constructor = targetClass.getDeclaredConstructor(Context.class, String.class, Bundle.class);
             targetView = constructor.newInstance(middleContainer.getContext(), id, bundle);
         } catch (Exception e) {
-            Log.e("错误", "弹出此消息，说明UiManager中的反射出错，一般是传入的class类型和实际的形参类型不同");
+            Log.e("错误", "弹出此消息，请检查你的构造器，看看是哪个类在初始化时候出错，比如你自定义的View。");
         }
         if (targetView != null) {
             // 如果对象创建成功，则创建 栈元素
