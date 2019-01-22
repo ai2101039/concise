@@ -1,17 +1,18 @@
 # concise
 
-## 使用说明
+## 说明
 用于 一个Activity + 多个View展示。（一定是一个Activity ，如 MainActivity）
-好处是页面切换快，解决了Fragment可能带来的问题。
-
-### 多View
-* 使用自定义栈进行管理进出顺序；
-* 继承统一父类BaseView；
-* 已为BaseView提供生命周期
-* 使用Map集合及软引用管理多View
+多View 模拟 Activity栈，实现了 STANDARD SINGLE_TASK SINGLE_TOP 三种启动模式
 
 ## BaseActivity
-提供View容器及 等待页面，错误页面
+提供BaseView容器、 等待页面 Loading ，错误页面 Error
 
 ## BaseView
-提供生命周期，返回键管理，具体View管理，软键盘管理
+* 模拟Activity，实现各生命周期  onCreate onResume onPause onDestory onNewIntent
+* 返回键管理，软键盘管理
+
+## 其他
+* 自定义软引用HashMap，实现了 软引用 View对象，防止View溢出
+* 自定义Stack栈，根据启动模式存储启动顺序
+* 自定义ViewMapping，实现对BaseView class对象的管理
+

@@ -196,10 +196,10 @@ public class UiManager {
         BaseView targetView = null;
         //  这里注意反射参数
         try {
-            Constructor<? extends BaseView> constructor = targetClass.getConstructor(Context.class, String.class, Bundle.class);
+            Constructor<? extends BaseView> constructor = targetClass.getDeclaredConstructor(Context.class, String.class, Bundle.class);
             targetView = constructor.newInstance(middleContainer.getContext(), id, bundle);
         } catch (Exception e) {
-            Log.e("错误", "弹出此消息，构造时候出错，对构造器打断点。");
+            Log.e("错误", "弹出此消息，请检查你的构造器，看看是哪个类在初始化时候出错，比如你自定义的View。");
         }
         if (targetView != null) {
             // 如果对象创建成功，则创建 栈元素
