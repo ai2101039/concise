@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +29,6 @@ import butterknife.Unbinder;
  * 描述: activity 基类
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
     /**
      * 填充
      */
@@ -59,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private View error;
 
 
-    private int statusBarColor = R.color._2789EC;
+    private int statusBarColor = R.color._999;
     protected ViewGroup baseContainer;
     private Unbinder unbinder;
 
@@ -105,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //////////////////////////////////////    普通逻辑       //////////////////////////////////////////////////
 
-    protected void showBaseLoading(String loadContent) {
+    public void showBaseLoading(String loadContent) {
         if (loading.getVisibility() != View.VISIBLE) {
             if (!TextUtils.isEmpty(loadContent)) {
                 loadText.setText(loadContent);
@@ -114,7 +114,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void hideBaseLoading() {
+    public void showBaseLoading(){
+        showBaseLoading(null);
+    }
+
+    public void hideBaseLoading() {
+        if (loading == null){
+            return;
+        }
         if (loading.getVisibility() != View.GONE) {
             loadText.setText("正在加载");
             loading.setVisibility(View.GONE);
@@ -122,7 +129,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         hideSoftKeyboard();
     }
 
-    protected void showBaseError() {
+    public void showBaseError() {
         if (error == null) {
             error = viewStub.inflate();
             error.findViewById(R.id.retry).setOnClickListener(new View.OnClickListener() {
@@ -137,7 +144,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void hideBaseError() {
+    public void hideBaseError() {
         if (error != null && error.getVisibility() != View.GONE) {
             error.setVisibility(View.GONE);
         }
@@ -145,9 +152,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 子类重写
+     *
      * @param v
      */
-    protected void onRetryClick(View v){
+    protected void onRetryClick(View v) {
 
     }
 
@@ -175,6 +183,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (im != null) {
             im.hideSoftInputFromWindow(baseContainer.getWindowToken(), 0);
+        }
+    }
+
+    protected void showSoftKeyboard(EditText editText) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(editText, 0);
         }
     }
 

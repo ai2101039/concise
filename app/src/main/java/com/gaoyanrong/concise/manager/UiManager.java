@@ -41,9 +41,9 @@ public class UiManager {
     private int num;
 
     static {
-        if (MemoryManager.hasAmpleMemory()){
+        if (MemoryManager.hasAmpleMemory()) {
             viewMap = new HashMap<>();
-        }else {
+        } else {
             viewMap = new SoftHashMap<>();
         }
         stack = new Stack<>();
@@ -87,20 +87,16 @@ public class UiManager {
         ViewMapping.Item item = ViewMapping.getInstance().getViewMap().get(id);
         Class<? extends BaseView> targetClass = item.getClazz();
         int launchMode = item.getLaunchMode();
-
-        // 2、获取目标View的simpleName，并创建 targetView
-        String simpleName = targetClass.getSimpleName();
         BaseView targetView = null;
 
-        // 3、查看simpleName是否已经存在
-        // 4、如果存在则根据 launchMode，对 stack栈进行操作
-        // 4、如果不存在，则初始化 targetClass,并放入ViewMap
-        targetView = checkLaunchMode(targetClass, id, bundle, simpleName, launchMode);
+        // 2、根据 launchMode，对 stack栈进行操作
+        targetView = checkLaunchMode(targetClass, id, bundle, launchMode);
 
-        Loger.e("打印", viewMap.size() + "");
+//        Loger.e("打印", viewMap.size() + "");
+
         if (curView == targetView) {
             if (curView != null) {
-                curView.onNewIntent();
+                curView.onNewIntent(curView.getmBundle());
             }
         } else {
             if (curView != null) {
@@ -118,8 +114,10 @@ public class UiManager {
     /**
      * 根据启动模式操作
      */
-    private BaseView checkLaunchMode(Class<? extends BaseView> targetClass, String id, Bundle bundle,
-                                     String simpleName, int launchMode) {
+    private BaseView checkLaunchMode(Class<? extends BaseView> targetClass,
+                                     String id,
+                                     Bundle bundle,
+                                     int launchMode) {
 
         //  1、如果是 STANDARD  则直接创建 stackEle，放入 stack栈 和 viewMap
 
@@ -133,7 +131,7 @@ public class UiManager {
 
         switch (launchMode) {
             case ViewMapping.STANDARD:
-                targetView = createBaseView(targetClass, id, bundle, simpleName);
+                targetView = createBaseView(targetClass, id, bundle);
                 break;
             case ViewMapping.SINGLE_TASK:
                 //  使用栈的迭代器，查找 ele
@@ -141,7 +139,7 @@ public class UiManager {
 
                 while (iterator.hasNext()) {
                     StackEle next = iterator.next();
-                    if (simpleName.equals(next.simpleName)) {
+                    if (id.equals(next.getId())) {
                         ele = next;
                         break;
                     }
@@ -158,25 +156,28 @@ public class UiManager {
                     //  修改 stack栈，及 viewMap 持有
                     while (iterator.hasNext()) {
                         StackEle next = iterator.next();
-                        if (!simpleName.equals(next.simpleName)) {
+                        if (!id.equals(next.getId())) {
                             StackEle pop = stack.pop();
-                            viewMap.remove(pop);
+                            //  如果BaseView 重写了 reserve，表示要求保留View数据，则不在viewMap中做移出操作
+                            if (!viewMap.get(pop).reserve()) {
+                                viewMap.remove(pop);
+                            }
                         }
                     }
 
                 } else {
-                    targetView = createBaseView(targetClass, id, bundle, simpleName);
+                    targetView = createBaseView(targetClass, id, bundle);
                 }
                 break;
             case ViewMapping.SINGLE_TOP:
                 //  1、看看是不是正处于栈顶
                 ele = stack.peek();
-                if (simpleName.equals(ele.simpleName)) {
+                if (id.equals(ele.getId())) {
                     //  1.1 处于栈顶，这时候不用判断是否为null，为肯定不会被回收，curView 还在引用这个对象，所以不会被回收
                     targetView = viewMap.get(ele);
                 } else {
                     //  1.2 创建新页面
-                    targetView = createBaseView(targetClass, id, bundle, simpleName);
+                    targetView = createBaseView(targetClass, id, bundle);
                 }
                 break;
             default:
@@ -189,22 +190,21 @@ public class UiManager {
      * @param targetClass
      * @param id
      * @param bundle
-     * @param simpleName
      * @return 创建新的BaseView，放入ViewMap 和 Stack
      */
-    private BaseView createBaseView(Class<? extends BaseView> targetClass, String id, Bundle bundle, String simpleName) {
+    private BaseView createBaseView(Class<? extends BaseView> targetClass, String id, Bundle bundle) {
         BaseView targetView = null;
         //  这里注意反射参数
         try {
             Constructor<? extends BaseView> constructor = targetClass.getConstructor(Context.class, String.class, Bundle.class);
             targetView = constructor.newInstance(middleContainer.getContext(), id, bundle);
         } catch (Exception e) {
-            Log.e("错误", "弹出此消息，说明UiManager中的反射出错，一般是传入的class类型和实际的形参类型不同");
+            Log.e("错误", "弹出此消息，构造时候出错，对构造器打断点。");
         }
         if (targetView != null) {
             // 如果对象创建成功，则创建 栈元素
             num++;
-            StackEle ele = new StackEle(simpleName, num);
+            StackEle ele = new StackEle(id, num);
             stack.push(ele);
             viewMap.put(ele, targetView);
 
@@ -235,22 +235,78 @@ public class UiManager {
     }
 
 
+    /**
+     * 回退，即返回上一页
+     */
+    public boolean rollback() {
+        if (stack.size() > 1) {
+            Bundle bundle = curView.getmBundle();
+            //  栈顶出栈
+            StackEle pop = stack.pop();
+            //  curView 执行 onPause
+            curView.onPause();
+            //  根据其是否保留页面，进行ViewMap操作
+            if (!curView.reserve()) {
+                curView.onDestroy();
+                viewMap.remove(pop);
+            }
+            middleContainer.removeView(curView.getContainer());
+            //  当前栈顶对应的BaseView
+            StackEle peek = stack.peek();
+            curView = viewMap.get(peek);
+            //  如果要回退的这个BaseView被回收了，还得创建新的
+            if (curView == null) {
+                String id = peek.getId();
+                ViewMapping.Item item = ViewMapping.getInstance().getViewMap().get(id);
+                Class<? extends BaseView> clazz = item.getClazz();
+                curView = createBaseView(clazz, id, bundle);
+            }
+            middleContainer.addView(curView.getContainer());
+            curView.onResume();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 清空栈及ViewMapping
+     */
+    public void clearView() {
+        stack.clear();
+        viewMap.clear();
+    }
+
+    /**
+     * @return 当前显示的BaseView
+     */
+    public BaseView getCurView() {
+        return curView;
+    }
+
+    /**
+     * @return BaseView栈
+     */
+    public static Stack<StackEle> getStack() {
+        return stack;
+    }
+
     static class StackEle {
 
-        private String simpleName;
-        private int id;
+        private String id;
+        private int num;
 
-        public StackEle(String simpleName, int id) {
-            this.simpleName = simpleName;
+        public StackEle(String id, int num) {
             this.id = id;
+            this.num = num;
         }
 
-        public String getSimpleName() {
-            return simpleName;
-        }
-
-        public int getId() {
+        public String getId() {
             return id;
+        }
+
+        public int getNum() {
+            return num;
         }
     }
 }
+

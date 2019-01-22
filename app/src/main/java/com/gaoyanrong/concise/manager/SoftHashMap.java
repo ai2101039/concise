@@ -8,6 +8,7 @@ import java.util.HashMap;
  * @author 高延荣
  * @date 2018/12/10 11:40
  * 描述: 具备软引用功能的 HashMap
+ * https://blog.csdn.net/qq_26030147/article/details/84939397
  */
 public class SoftHashMap<K, V> extends HashMap<K, V> {
 

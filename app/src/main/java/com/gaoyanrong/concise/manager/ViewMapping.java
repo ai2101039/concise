@@ -36,6 +36,7 @@ public class ViewMapping {
     }
 
 
+
     ////////////////////////////////////不需要操作//////////////////////////////////
 
     private void put(String s, Class<? extends BaseView> clazz) {
@@ -85,6 +86,5 @@ public class ViewMapping {
             return clazz;
         }
     }
-
 
 }

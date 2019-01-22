@@ -31,6 +31,4 @@ public class JtMainActivity extends BaseActivity {
         UiManager.getInstance().setMiddleContainer(main);
         UiManager.getInstance().changeView(ViewMapping.GUIDE, new Bundle());
     }
-
-
 }

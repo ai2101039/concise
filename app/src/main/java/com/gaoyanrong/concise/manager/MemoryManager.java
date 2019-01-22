@@ -14,7 +14,6 @@ import java.io.File;
  * 描述: 内存管理器
  */
 public class MemoryManager {
-    private static final String TAG = MemoryManager.class.getSimpleName();
     private static final int MIN_MEMORY = 30 * 1024 * 1024;
 
     /**
@@ -24,7 +23,6 @@ public class MemoryManager {
      */
     public static boolean hasAmpleMemory() {
         long memorySize = getAvailableInternalMemorySize();
-        Loger.i(TAG, "memorySize : " + memorySize);
         return memorySize < MIN_MEMORY;
     }
 
@@ -45,8 +43,4 @@ public class MemoryManager {
         long availableBlocks = stat.getAvailableBlocks();
         return availableBlocks * blockSize;
     }
-
-
-
-
 }
