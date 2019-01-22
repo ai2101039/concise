@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import com.gaoyanrong.concise.R;
 import com.gaoyanrong.concise.base.BaseView;
-import com.gaoyanrong.concise.manager.ViewMapping;
+import com.gaoyanrong.concise.manager.ViewClassMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,6 +31,6 @@ public class AuthorListView extends BaseView {
 
     @OnClick(R.id.btn)
     public void onViewClicked() {
-        changeView(ViewMapping.GUIDE, mBundle);
+        changeView(ViewClassMap.GUIDE, mBundle);
     }
 }

@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import com.gaoyanrong.concise.R;
 import com.gaoyanrong.concise.base.BaseActivity;
 import com.gaoyanrong.concise.manager.UiManager;
-import com.gaoyanrong.concise.manager.ViewMapping;
+import com.gaoyanrong.concise.manager.ViewClassMap;
 
 import butterknife.BindView;
 
@@ -29,6 +29,6 @@ public class JtMainActivity extends BaseActivity {
     @Override
     protected void initContentView(Bundle savedInstanceState) {
         UiManager.getInstance().setMiddleContainer(main);
-        UiManager.getInstance().changeView(ViewMapping.GUIDE, new Bundle());
+        UiManager.getInstance().changeView(ViewClassMap.GUIDE, new Bundle());
     }
 }

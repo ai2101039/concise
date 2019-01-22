@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.gaoyanrong.concise.base.BaseView;
-import com.gaoyanrong.concise.utils.Loger;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class UiManager {
     /**
      * 模拟Activity栈
      * String = BaseView 说明标识
-     * 说明标识存在于 ViewMapping 中
+     * 说明标识存在于 ViewClassMap 中
      */
     private static Stack<StackEle> stack;
 
@@ -84,7 +83,7 @@ public class UiManager {
             throw new NullPointerException("缺少MainActivity的容器");
         }
         // 1、获取到类对象，类跳转模式
-        ViewMapping.Item item = ViewMapping.getInstance().getViewMap().get(id);
+        ViewClassMap.Item item = ViewClassMap.getInstance().getViewMap().get(id);
         Class<? extends BaseView> targetClass = item.getClazz();
         int launchMode = item.getLaunchMode();
         BaseView targetView = null;
@@ -130,10 +129,10 @@ public class UiManager {
 
 
         switch (launchMode) {
-            case ViewMapping.STANDARD:
+            case ViewClassMap.STANDARD:
                 targetView = createBaseView(targetClass, id, bundle);
                 break;
-            case ViewMapping.SINGLE_TASK:
+            case ViewClassMap.SINGLE_TASK:
                 //  使用栈的迭代器，查找 ele
                 Iterator<StackEle> iterator = stack.iterator();
 
@@ -169,7 +168,7 @@ public class UiManager {
                     targetView = createBaseView(targetClass, id, bundle);
                 }
                 break;
-            case ViewMapping.SINGLE_TOP:
+            case ViewClassMap.SINGLE_TOP:
                 //  1、看看是不是正处于栈顶
                 ele = stack.peek();
                 if (id.equals(ele.getId())) {
@@ -257,7 +256,7 @@ public class UiManager {
             //  如果要回退的这个BaseView被回收了，还得创建新的
             if (curView == null) {
                 String id = peek.getId();
-                ViewMapping.Item item = ViewMapping.getInstance().getViewMap().get(id);
+                ViewClassMap.Item item = ViewClassMap.getInstance().getViewMap().get(id);
                 Class<? extends BaseView> clazz = item.getClazz();
                 curView = createBaseView(clazz, id, bundle);
             }

@@ -12,8 +12,8 @@ import java.util.HashMap;
  * @date 2018/12/3 11:54
  * 描述: BaseView 的清单文件
  */
-public class ViewMapping {
-    private static ViewMapping viewMapping = new ViewMapping();
+public class ViewClassMap {
+    private static ViewClassMap viewMapping = new ViewClassMap();
 
     /**
      * 启动模式
@@ -30,7 +30,7 @@ public class ViewMapping {
     public static final String GUIDE = "项目主界面";
     public static final String AUTHOR_LIST = "作者列表页面";
 
-    private ViewMapping() {
+    private ViewClassMap() {
         put(GUIDE, IndexView.class);
         put(AUTHOR_LIST, AuthorListView.class);
     }
@@ -57,7 +57,7 @@ public class ViewMapping {
     /**
      * @return viewMapping
      */
-    public static ViewMapping getInstance() {
+    public static ViewClassMap getInstance() {
         return viewMapping;
     }
 
