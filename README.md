@@ -16,3 +16,8 @@
 * 自定义Stack栈，根据启动模式存储启动顺序
 * 自定义ViewMapping，实现对BaseView class对象的管理
 
+## 流程图
+![流程图](https://github.com/ai2101039/concise/blob/master/explain/%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+
+## 结构图
+![结构图](https://github.com/ai2101039/concise/blob/master/explain/%E7%BB%93%E6%9E%84%E5%9B%BE.png)
